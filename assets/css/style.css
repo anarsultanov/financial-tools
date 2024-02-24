@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+}
+
+nav {
+    background-color: #007bff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav li {
+    margin: 0 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover, nav a:focus {
+    background-color: #0056b3;
+    color: #ffd700;
+    text-decoration: none;
+}
+
+nav a.active {
+    background-color: #ffd700;
+    color: #0056b3;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+label {
+    margin-top: 20px;
+    display: block;
+    color: #666;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.net-benefit {
+    border: 2px solid #4CAF50;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+.wealth-warning {
+    border: 2px solid #f44336;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 4px;
+    background: #ffdada;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.result-item strong {
+    font-weight: bold;
+}
+
+.scenario-headline {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.wealth-warning, .net-benefit {
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.positive {
+    color: #4CAF50;
+}
+
+.negative {
+    color: #f44336;
+}
+
+.financial-advice {
+    border: 2px solid #007bff;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.financial-advice h3 {
+    color: #007bff;
+    margin-bottom: 10px;
+}

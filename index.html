@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Tools Suite</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="#loanRepaymentInvestmentCalculator" onclick="showTool('loanRepaymentInvestmentCalculator')">Loan Repayment vs. Investment Calculator</a></li>
+    </ul>
+</nav>
+
+<div id="toolContainer">
+    <div id="loanRepaymentInvestmentCalculator" class="container tool">
+        <h2>Loan Repayment vs. Investment Calculator</h2>
+        <p>This versatile calculator allows you to compare the financial outcomes of paying off loans, including mortgages, against investing over a specified period. It's ideal for evaluating the best use of your funds between loan amortization and investment opportunities.</p>
+        <p class="net-benefit">
+            <strong>Net Financial Benefit</strong> measures the financial impact of investing versus loan repayment, including both investment returns and interest savings. It accounts for the total interest paid on loans, offering a clear picture of each option's effect on your net worth over time.
+        </p>
+        <p class="wealth-warning">
+            <strong>Wealth Warning:</strong> Markets are volatile. Rates and returns will not be smooth like in this tool. Actual outcomes can significantly vary, impacting the financial benefits of these strategies.
+        </p>
+
+        <form id="calcForm">
+            <label for="loanAmount">Loan Amount (e.g. Mortgage):</label>
+            <input type="number" id="loanAmount" placeholder="3000000" required>
+
+            <label for="interestRate">Loan Interest Rate (Annual %):</label>
+            <input type="number" step="0.01" id="interestRate" placeholder="4" required>
+
+            <label for="investmentRate">Investment Return Rate (Annual %):</label>
+            <input type="number" step="0.01" id="investmentRate" placeholder="7" required>
+
+            <label for="amortizationS1">Scenario 1 - Monthly Amortization:</label>
+            <input type="number" id="amortizationS1" placeholder="10000" required>
+
+            <label for="investmentS1">Scenario 1 - Monthly Investment:</label>
+            <input type="number" id="investmentS1" placeholder="0" required>
+
+            <label for="amortizationS2">Scenario 2 - Monthly Amortization:</label>
+            <input type="number" id="amortizationS2" placeholder="7000" required>
+
+            <label for="investmentS2">Scenario 2 - Monthly Investment:</label>
+            <input type="number" id="investmentS2" placeholder="3000" required>
+
+            <label for="period">Period (Years):</label>
+            <input type="number" id="period" placeholder="25" required>
+
+            <button type="button" onclick="calculate()">Calculate</button>
+        </form>
+        <div id="results"></div>
+    </div>
+</div>
+
+
+<script src="./assets/js/script.js"></script>
+</body>
+</html>
