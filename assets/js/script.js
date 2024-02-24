@@ -1,12 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    setActiveTool('loanRepaymentInvestmentCalculator');
+    setActiveTool('index');
 
     document.querySelectorAll('nav a').forEach(link => {
         link.addEventListener('click', function(event) {
             event.preventDefault();
             const toolId = this.getAttribute('href').substring(1);
             setActiveTool(toolId);
+            closeMenu();
         });
+    });
+
+    addRebalanceEntry(); // Add the first entry field by default
+    document.getElementById('rebalanceForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Your calculation logic here
+        calculateRebalance();
     });
 });
 
@@ -32,6 +41,18 @@ function showTool(toolId) {
         selectedTool.style.display = 'block';
     } else {
         console.error("Tool with ID '" + toolId + "' not found.");
+    }
+}
+
+function toggleMenu() {
+    const menu = document.querySelector('.nav-menu');
+    menu.classList.toggle('active');
+}
+
+function closeMenu() {
+    const menu = document.querySelector('.nav-menu');
+    if (menu.classList.contains('active')) {
+        menu.classList.remove('active'); // Only remove 'active', not toggle
     }
 }
 
@@ -114,4 +135,122 @@ function calculateLoanAndInvestment(loanAmount, monthlyInterestRate, monthlyAmor
         totalInterestPaid,
         investmentValue
     };
+}
+
+function addRebalanceEntry() {
+    const container = document.getElementById('rebalanceEntries');
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'rebalance-entry';
+    entryDiv.innerHTML = `
+        <input type="text" class="fund-name" placeholder="Asset Name" required style="flex: 2;">
+        <input type="number" class="current-allocation" placeholder="Allocation" min="0" required style="flex: 1;">
+        <input type="number" class="target-percentage" placeholder="Target (%)" min="0" max="100" required style="flex: 1;">
+        <button class="remove-entry" onclick="removeEntry(this)">×</button>
+    `;
+    container.appendChild(entryDiv);
+}
+
+function removeEntry(button) {
+    button.parentElement.remove();
+}
+
+function calculateRebalance() {
+    event.preventDefault(); // Prevent the form from submitting
+
+    const entries = document.querySelectorAll('#rebalanceEntries .rebalance-entry');
+    for (let entry of entries) {
+        const inputs = entry.querySelectorAll('input');
+        for (let input of inputs) {
+            if (!input.value) {
+                alert('Please fill in all fields before calculating.');
+                return;
+            }
+        }
+    }
+
+    let totalCurrentAllocation = 0;
+    let adjustments = [];
+
+    entries.forEach(entry => {
+        const currentAllocation = parseFloat(entry.querySelector('.current-allocation').value || 0);
+        totalCurrentAllocation += currentAllocation;
+    });
+
+    if (totalCurrentAllocation === 0) {
+        alert('Please enter current allocations.');
+        return;
+    }
+
+    let totalTargetPercentage = 0;
+
+    entries.forEach(entry => {
+        const name = entry.querySelector('.fund-name').value;
+        const currentAllocation = parseFloat(entry.querySelector('.current-allocation').value || 0);
+        const targetPercentage = parseFloat(entry.querySelector('.target-percentage').value || 0);
+        totalTargetPercentage += targetPercentage;
+
+        const targetAllocation = (totalCurrentAllocation * targetPercentage) / 100;
+        const adjustment = targetAllocation - currentAllocation;
+
+        adjustments.push({ name, adjustment });
+    });
+
+    if (totalTargetPercentage !== 100) {
+        alert('Total target allocation percentages must sum to 100.');
+        return;
+    }
+
+    displayRebalanceResults(adjustments);
+}
+
+function displayRebalanceResults(adjustments) {
+    const resultsDiv = document.getElementById('rebalanceResults');
+    resultsDiv.innerHTML = ''; // Clear previous results
+
+    let adjustmentsNeeded = false;
+
+    adjustments.forEach(adj => {
+        if (Math.abs(adj.adjustment) >= 0.01) { // Assuming 0.01 as a minimal threshold for adjustments
+            adjustmentsNeeded = true;
+            const resultItem = document.createElement('div');
+            resultItem.classList.add('rebalance-result-item', adj.adjustment > 0 ? 'add' : 'remove');
+            const adjustmentText = `${adj.adjustment > 0 ? 'Add' : 'Remove'} ${Math.abs(adj.adjustment).toFixed(2)}`;
+            resultItem.innerHTML = `<strong>${adj.name}</strong> ${adjustmentText}`;
+            resultsDiv.appendChild(resultItem);
+        }
+    });
+
+    // Display a message if no significant adjustments are needed
+    if (!adjustmentsNeeded) {
+        const noChangeMessage = document.createElement('div');
+        noChangeMessage.classList.add('no-change');
+        noChangeMessage.innerHTML = "Your portfolio is already balanced according to your target allocations. No adjustments needed at this time.";
+        resultsDiv.appendChild(noChangeMessage);
+    }
+
+    displayTip()
+}
+
+const rebalancingTips = [
+    "Consider rebalancing your portfolio periodically, typically once a year, to maintain your desired risk level.",
+    "Be mindful of tax implications when selling investments to rebalance your portfolio. Selling assets that have appreciated in value could result in capital gains taxes.",
+    "Transaction costs can add up. Try to rebalance using cash flows (like dividends or new contributions) to minimize costs.",
+    "Market conditions change, and so do your financial goals. Regularly review your target allocations to ensure they still align with your objectives.",
+    "Use threshold rebalancing instead of calendar-based rebalancing to respond to significant market movements and maintain your portfolio's risk profile.",
+    "Consider the emotional aspect of investing; rebalancing helps remove emotion from the decision-making process, keeping you aligned with long-term objectives.",
+    "Diversification is key. Ensure your portfolio includes a variety of asset classes to spread risk and increase the potential for return.",
+    "Look into tax-advantaged accounts for rebalancing activities to potentially reduce tax liabilities associated with buying and selling assets.",
+    "Automate your rebalancing strategy where possible. Many investment platforms offer automatic rebalancing features to keep your portfolio aligned with your goals.",
+    "Rebalancing is not just about selling off; it's also an opportunity to buy undervalued assets that fit your long-term investment strategy.",
+    "Keep an emergency fund and do not rebalance using these funds. Your investment portfolio should be separate from your short-term financial safety net.",
+    "Remember, rebalancing may lead to realizing taxable gains. Always consult with a tax advisor to understand the implications before making significant changes."
+];
+
+function displayTip() {
+    const tipIndex = Math.floor(Math.random() * rebalancingTips.length);
+    const tip = rebalancingTips[tipIndex];
+    const tipElement = document.createElement('div');
+    tipElement.classList.add('financial-advice');
+    tipElement.innerHTML = `<h3>Tip for Smart Rebalancing</h3><p>${tip}</p>`;
+    document.getElementById('rebalanceResults').appendChild(tipElement);
 }

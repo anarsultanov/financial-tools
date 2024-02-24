@@ -8,12 +8,21 @@
 </head>
 <body>
 <nav>
-    <ul>
-        <li><a href="#loanRepaymentInvestmentCalculator" onclick="showTool('loanRepaymentInvestmentCalculator')">Loan Repayment vs. Investment Calculator</a></li>
+    <div class="nav-toggle" onclick="toggleMenu()">☰ Menu</div>
+    <ul class="nav-menu">
+        <li><a href="#loanRepaymentInvestmentCalculator" onclick="showTool('loanRepaymentInvestmentCalculator')">Loan Repay vs. Investment</a></li>
+        <li><a href="#portfolioRebalancingTool" onclick="showTool('portfolioRebalancingTool')">Portfolio Rebalancing</a></li>
     </ul>
 </nav>
 
 <div id="toolContainer">
+
+    <div id="index" class="container tool">
+        <h1>Welcome to My Financial Tools Suite</h1>
+        <img src="./assets/images/image.webp" alt="Financial Tools Illustration" style="max-width:100%; height:auto;">
+        <p>Here I host a couple of financial tools I've put together out of personal necessity. They're simple, straightforward, and were built to solve specific problems I faced in managing my own finances.</p>
+        <p>The tools are quite basic and were developed quickly to fulfill my immediate needs, so please manage your expectations accordingly. They're not meant to be professional financial advice tools but rather a personal project I decided to share. Feel free to explore them and use them for your own financial calculations.</p>
+    </div>
     <div id="loanRepaymentInvestmentCalculator" class="container tool">
         <h2>Loan Repayment vs. Investment Calculator</h2>
         <p>This versatile calculator allows you to compare the financial outcomes of paying off loans, including mortgages, against investing over a specified period. It's ideal for evaluating the best use of your funds between loan amortization and investment opportunities.</p>
@@ -52,6 +61,24 @@
             <button type="button" onclick="calculate()">Calculate</button>
         </form>
         <div id="results"></div>
+    </div>
+    <div id="portfolioRebalancingTool" class="container tool" style="display:none;">
+        <div class="tool-description">
+            <h2>Portfolio Rebalancing Tool</h2>
+            <p>This tool helps you rebalance your investment portfolio to align with your target asset allocation. By entering your current investments and desired percentage allocations, you can see recommendations for adjustments to get back on track. Regular rebalancing ensures your investment strategy remains aligned with your risk tolerance and financial goals, adapting to both market changes and personal financial shifts.</p>
+            <p class="wealth-warning">
+                <strong>Rebalancing Warning:</strong> While rebalancing can help maintain your desired level of risk, it also involves potential costs, such as transaction fees and taxes on capital gains. Moreover, frequent rebalancing in volatile markets can lead to significant impacts on your investment performance. Always consider these factors and consult with a financial advisor before making rebalancing decisions.
+            </p>
+        </div>
+        </br>
+        <form id="rebalanceForm">
+            <div id="rebalanceEntries">
+                <!-- Entry fields will be added here dynamically -->
+            </div>
+            <button type="button" onclick="addRebalanceEntry()">Add Entry</button>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="rebalanceResults"></div>
     </div>
 </div>
 
